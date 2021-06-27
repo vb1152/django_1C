@@ -1,0 +1,75 @@
+{% extends "desk_app/layout.html" %}
+{% load static %}
+
+
+
+{% block title %}
+    1C
+    
+{% endblock %}
+
+{% block body %}
+    <script>
+    window.onload = function() {
+        console.log('run')
+
+        const id_url = document.querySelector('#id_url');
+        const id_port_IC = document.querySelector('#id_port_IC');
+        const id_base_IC_name = document.querySelector('#id_base_IC_name');
+        const id_odata_url = document.querySelector('#id_odata_url');
+
+        var url_result = document.querySelector('.url_result');
+
+        const updateResult = function(e) {
+            const result_all = id_url.value + id_port_IC.value + id_base_IC_name.value  + id_odata_url.value;
+            url_result.innerHTML = result_all;
+            url_result.href = result_all;
+        };
+
+        id_url.addEventListener('input', updateResult);
+        id_port_IC.addEventListener('input', updateResult);
+        id_base_IC_name.addEventListener('input', updateResult);
+        id_odata_url.addEventListener('input', updateResult);
+
+    };
+    </script> 
+
+    {% if message %}
+    <div>{{ message }}</div>
+    {% endif %}
+    
+    <h4>Параметри роботи з 1С</h4>
+
+    {% if user.is_authenticated %}
+        <form action="{% url 'desk_app:IC' %}" method="post"> 
+            <header>
+                <h5>Параметри підключення</h5>
+
+                <div>Введіть параметри підключення до бази 1С через опублікований веб сервер 1С</div>
+                <br>
+            </header>
+            
+            {% csrf_token %} 
+            {{ form_IC }}
+            <br>
+            <input type="submit" value="Зберегти">
+        </form> 
+        
+        
+        <div>
+            В процесі вводу перевірте ЦЮ \|/ електронну адресу для підключення до бази 1С. Якщо адреса введена вірно, при переході за 
+            цією адресою в новому вікні браузері має відкритися діалогове вікно входу в 1С. 
+        </div>
+        <a class = url_result href=""></a>
+
+
+    {% else %}
+            
+            {% if message %}
+                <div>{{ message }}</div>
+            {% endif %}
+            
+    {% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "desk_app/layout.html" %}
+
+{% block title %} ABC {% endblock %}
+
+{% block scripts %}
+    {% load static %}
+    <script src="{% static 'desk_app/abc.js' %}"></script>
+{% endblock %}
+
+{% block body %} 
+    {% if user.is_authenticated %}
+        <div>Оберіть дати для завантаження даних по продажам та розрахунку ABC класів.</div>
+        <!--Form Container-->
+        <div>
+            <form action="{% url 'desk_app:abc' %}" method="post">
+                {% csrf_token %} 
+                <table>
+                    <tr>
+                        {% for field in form_dates %}
+                            <td>{{ field.label_tag}}</td>  
+                            <td>{{ field }} {{ form_dates.field.errors }}</td>
+                            {% if field.help_text %}
+                                <p class="help">{{ field.help_text|safe }}</p>
+                            {% endif %}
+                        {% endfor %}
+                        <td><button type="submit" class="btn btn-primary btn-sm">Завантажити дані</button></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        
+        
+    {% else %}
+        {% if message %}
+            <div>{{ message }}</div>
+        {% endif %}
+    {% endif %} 
+    
+    <div class="jsGrid" id="jsGrid"></div>
+
+{% endblock %}

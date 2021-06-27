@@ -1,0 +1,14 @@
+{% extends "desk_app/layout.html" %}
+
+{% block title %}Страхові запаси{% endblock %}
+
+{% block scripts %}
+    {% load static %}
+    <script src="{% static 'desk_app/stock.js' %}"></script>
+{% endblock %}       
+
+{% block body %}
+{% csrf_token %} 
+<div class="jsGrid" id="jsGrid"></div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+body {
+    margin: 10px;
+}
+
+/* one line for form in produsers.html */
+[class_line = "one-line"] {
+   display: inline-block;
+   }
+
+/*color all group names in http://127.0.0.1:8000/stock*/
+.jsgrid-row.group > td,
+.jsgrid-alt-row.group > td{
+    background-color: burlywood;
+  }
+/*color data cell with A in http://127.0.0.1:8000/stock*/
+.jsgrid-row.A > td:nth-child(4), 
+.jsgrid-alt-row.A > td:nth-child(4) {
+    background-color: rgb(153, 207, 140);
+}
+
+.jsgrid-row.B > td:nth-child(4), 
+.jsgrid-alt-row.B > td:nth-child(4) {
+    background-color: rgb(196, 221, 103);
+}
+
+.jsgrid-row.C > td:nth-child(4), 
+.jsgrid-alt-row.C > td:nth-child(4) {
+    background-color: rgb(226, 140, 140);
+}

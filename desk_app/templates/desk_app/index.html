@@ -1,0 +1,41 @@
+{% extends "desk_app/layout.html" %}
+
+{% block body %} 
+    {% if user.is_authenticated %}
+        
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <!--form action="{% url 'desk_app:load_data_from_IC' %}" method="POST"-->    
+            <button type="button" class="btn btn-outline-primary" id="load_data">Завантажити группу "Товары"</button>
+        <!--/form-->
+        <!--form action="{% url 'desk_app:load_scu_from_IC' %}" method="POST"-->    
+            <button type="button" class="btn btn-outline-primary" id="load_scu">Завантажити номенклатуру</button>
+        <!--/form-->
+
+        <!-- конпка праюцє без js -->
+        <form action="{% url 'desk_app:simple_list' %}" method="GET">   
+            <button type="submit" class="btn btn-outline-primary" id="show_pricelist">Показати повний перелік</button>
+        </form>
+        
+            <button type="submit" class="btn btn-outline-primary" id="load_barcode">Оновити штрихкоди</button>
+        <!--/form-->
+            <button type="submit" class="btn btn-outline-primary" id="load_prices">Оновити ціни</button>
+        
+        <form action="{% url 'desk_app:price_list_all' %}" method="GET">     
+            <button type="submit" class="btn btn-outline-primary" id="">Прайс</button>
+        </form>    
+    </div>
+        {% if message %}
+            <div>{{ message }}</div>
+        {% endif %}
+
+        <div class="status_text"></div>
+        <div class="status_text_scu"></div>
+        <div class="status_text_barcode"></div>
+        <div class="status_text_prices"></div>
+        <!--div class="price_list_groups"></div-->
+        <div class="jsGrid" id="jsGrid"></div>
+        
+        
+    {% else %}
+    {% endif %}    
+{% endblock %}

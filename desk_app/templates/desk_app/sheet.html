@@ -1,0 +1,23 @@
+{% extends "desk_app/layout.html" %}
+
+{% block title %} ABC {% endblock %}
+
+{% block scripts %}
+    {% load static %}
+    <script src="{% static 'desk_app/sheet.js' %}"></script>
+{% endblock %}
+
+{% block body %} 
+    {% if user.is_authenticated %}
+        
+        
+        
+    {% else %}
+        {% if message %}
+            <div>{{ message }}</div>
+        {% endif %}
+    {% endif %} 
+    
+    <div class="jsGrid" id="jsGrid"></div>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "desk_app/layout.html" %}
+
+{% block title %} Постачальники {% endblock %}
+
+{% block scripts %}
+    {% load static %}
+    <script src="{% static 'desk_app/produsers.js' %}"></script>
+{% endblock %}
+
+{% block body %} 
+    {% if user.is_authenticated %}
+
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <form action="{% url 'desk_app:produsers' %}" method="POST">
+                        <input class_line = one-line type="hidden" name = "update_all_prod_data" value="update_all_prod_data">
+                        {% csrf_token %} 
+                        <button type="submit" class="btn btn-outline-primary btn-sm" id="update_all_prod_data">Оновити постачальників</button>
+                    </form>
+                    <button class_line = one-line type="button" class="btn btn-outline-primary btn-sm" id="load_scu" disabled="true">Кнопка 2</button>
+                </div>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if '0' in message.extra_tags %}
+                            <div class_line = one-line>  {{ message }}</div>
+                        {% elif '1' in message.extra_tags %}   
+                            <div class_line = one-line>  {{ message }}</div>
+                        {% endif %} 
+                    {% endfor %}    
+                {% endif %}
+
+            
+
+    <div class="jsGrid" id="jsGrid"></div>
+        
+    {% else %}
+    {% endif %}    
+{% endblock %}
