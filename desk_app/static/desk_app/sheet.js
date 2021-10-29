@@ -22,7 +22,7 @@ $(document).ready(function() {
         controller: {
             loadData: function(filter) {
                 var d = $.Deferred();
-                console.log('ajax GET price_list_all');
+                console.log('ajax GET sheet_api');
                 $.ajax({
                     type: "GET",
                     url: "/sheet_api",

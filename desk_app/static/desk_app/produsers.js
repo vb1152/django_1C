@@ -3,6 +3,48 @@
 
 $(document).ready(function() {
     console.log('ajax run produsers');
+
+    $('#clean_files').on( "click", function() {
+        //console.log( $( this ).text() );
+        $.ajax({
+            type: "POST",
+            url: "/produsers",
+            data: {
+                clean_files: "clean_files",
+                data_clean: $('[name="clean_files"]').val()
+              },
+            headers:{
+                "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val()
+            }
+        }).done(function(result) {
+            console.log(result)
+            document.querySelector('.status_text').innerHTML = result.comment
+        });
+    });
+
+    $('#ready_files').on( "click", function() {
+        //console.log( $( this ).text() );
+        $.ajax({
+            type: "POST",
+            url: "/produsers",
+            data: {
+                ready_files: "ready_files",
+                data_ready: $('[name="ready_files"]').val()
+              },
+            headers:{
+                "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val()
+            }
+        }).done(function(result) {
+            console.log(result)
+            document.querySelector('.status_text').innerHTML = result.comment
+        });
+    });
+
+    
+
+
+
+
     $("#jsGrid").jsGrid({
         height: "auto",
         width: "100%",
@@ -25,7 +67,7 @@ $(document).ready(function() {
             loadData: function(filter) {
                 var d = $.Deferred();
                 console.log('ajax GET produsers');
-                console.log(filter);
+                //console.log(filter);
                 $.ajax({
                     type: "GET",
                     url: "/produsers_api",
@@ -33,17 +75,24 @@ $(document).ready(function() {
                 }).done(function(result) {
                     console.log('result produsers');
                     d.resolve($.map(result, function(item) {
-                        //console.log('item')
+                        //console.log(item)
                         //console.log(item.id)
                         return $.extend(item.fields, { 
                                                         id: item.id,
                                                         Name_1C: item.producer_name, 
+                                                        Active: item.active, 
                                                         Short_name: item.short_prod_name, 
                                                         Contact: item.contact_data,
                                                         Email: item.email_order,
-                                                        Info: item.info_field
+                                                        Info: item.info_field, 
+                                                        min_sum: item.min_sum,
+                                                        file_name: item.file_name,
+                                                        barcode_col: item. barcode_col,
+                                                        order_col: item.order_col
+
                                                     });
                     }));
+                    //console.log(d)
                 });
 
                 return d.promise();
@@ -80,17 +129,22 @@ $(document).ready(function() {
                     url: "/produsers_api/" + item.id,
                     headers:{
                         "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val()
-                    },
+                        },
                 });
             }
         },
 
         fields: [
-            { name: "Name_1C", type: "text", width: 200 },
-            { name: "Short_name", type: "text", width: 70 },
-            { name: "Contact", type: "text", width: 150 },
+            { name: "Name_1C", type: "text", title: "Full name", width: 100 },
+            { name: "Active", type: "checkbox", title: "Act", sorting: true, width: 15},
+            { name: "Short_name", type: "text", width: 50 },
+            { name: "Contact", type: "text", width: 50 },
             { name: "Email", type: "text", width: 100, filtering: false},
-            { name: "Info", type: "text", width: 200},
+            { name: "Info", type: "text", width: 50},
+            { name: "min_sum", type: 'number', width: 45, title: "Min sum", align: "left", },
+            { name: "file_name", title: "Файл", type: "text", title: "File", width: 100},
+            { name: "barcode_col", title: "Barc col", type: "text", width: 20}, 
+            { name: "order_col", title: "Ord col", type: "text", width: 20},
             { type: "control" }
         ]
     });

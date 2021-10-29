@@ -9,7 +9,7 @@
 
 {% block body %} 
     {% if user.is_authenticated %}
-        <div>Оберіть дати для завантаження даних по продажам та розрахунку ABC класів.</div>
+        <div>Choose dates to download sales and ABC class calculation.</div>
         <!--Form Container-->
         <div>
             <form action="{% url 'desk_app:abc' %}" method="post">
@@ -23,7 +23,7 @@
                                 <p class="help">{{ field.help_text|safe }}</p>
                             {% endif %}
                         {% endfor %}
-                        <td><button type="submit" class="btn btn-primary btn-sm">Завантажити дані</button></td>
+                        <td><button type="submit" class="btn btn-primary btn-sm">Load data</button></td>
                     </tr>
                 </table>
             </form>

@@ -1,6 +1,35 @@
 // script to create dinamic jsGrid table 
 
 $(document).ready(function() {
+
+    
+    //code to use decimal numbers
+    //https://github.com/tabalinas/jsgrid/issues/621 - 
+    function DecimalField(config) {
+        jsGrid.fields.number.call(this, config);
+    }
+    DecimalField.prototype = new jsGrid.fields.number({
+        filterValue: function() {
+            return this.filterControl.val()
+                ? parseFloat(this.filterControl.val() || 0, 10)
+                : undefined;
+        },
+        insertValue: function() {
+            return this.insertControl.val()
+                ? parseFloat(this.insertControl.val() || 0, 10)
+                : undefined;
+        },
+        editValue: function() {
+            return this.editControl.val()
+                ? parseFloat(this.editControl.val() || 0, 10)
+                : undefined;
+        }
+    });
+    jsGrid.fields.decimal = jsGrid.DecimalField = DecimalField;
+
+    
+
+
     // rout to get list of manufacturers from db 
     $.ajax({
         type: "GET",
@@ -9,11 +38,18 @@ $(document).ready(function() {
         console.log(manuf_list)
         manuf_list.unshift({ id: 0, producer_name: "" });
 
+
+        
+
+        
+
     //console.log('ajax run');
     $("#jsGrid").jsGrid({
+        
         height: "auto",
         width: "100%",
-
+        
+        autosearch: true,
         filtering: true,
         inserting: true,
         editing: true,
@@ -42,6 +78,7 @@ $(document).ready(function() {
             loadData: function(filter) {
                 var d = $.Deferred();
                 //console.log('ajax GET stock');
+                //console.log(filter);
                 $.ajax({
                     type: "GET",
                     url: "/stock_api",
@@ -49,8 +86,15 @@ $(document).ready(function() {
                     data: filter
                 }).done(function(result) {
                     //console.log('result');
-                    //console.log(result.scu_list);
+                    //console.log(result);
                     //rowClass(item);
+                    
+                    //result = $.grep(result, function(item) {
+                    //    return item.manuf === filter.manuf;
+                    //});
+           
+                    
+                    
                     d.resolve($.map(result, function(item) {
                         //console.log(manuf_list.find(x => x.id == '1').producer_name)
                         //console.log(item.scu_produser__producer_name)
@@ -83,10 +127,13 @@ $(document).ready(function() {
             },
             
             updateItem: function(item) {
+                console.log(item)
+                //console.log(value)
                 return $.ajax({
                     type: "PUT",
                     url: "/stock_api/" + item.id,
                     data: item,
+                    
                     headers: {
                         "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val() //get csrftoken in var
                     },
@@ -107,18 +154,32 @@ $(document).ready(function() {
             { name: "articul", type: "text", width: 5, editing: false },
             { name: "barcode", type: "text", width: 30, editing: false },
             { name: "class", type: "text", width: 5, editing: false }, // АБС клас товару 
-            { name: "sfs", type: "number", width: 10, filtering: false }, // страховий запас 
-            { name: "mlt", type: "number", width: 10, filtering: false }, // кратність 
-            { name: "maxOrd", type: "number", width: 10, filtering: false }, // максимальне замовлення 
-            { name: "maxSTK", type: "number", width: 10, filtering: false }, //максимально можливий залишок
+            { name: "sfs", type: "decimal", width: 20, filtering: false}, // страховий запас 
+            { name: "mlt", type: "decimal", width: 20, filtering: false }, // кратність 
+            { name: "maxOrd", type: "decimal", width: 20, filtering: false }, // максимальне замовлення 
+            { name: "maxSTK", type: "decimal", width: 20, filtering: false }, //максимально можливий залишок
 
 
-            { name: "manuf", selectedIndex: -1, autosearch: true, type: "select",
+            { name: "manuf", autosearch: true, type: "select", selectedIndex: -1,
                 width: 50, items: manuf_list, editing: true, valueField: "id", textField: "producer_name",
-                filterValue: function() { 
-                    return this.items[this.filterControl.val()][this.textField]}
+               
+                // функція пошуку в списку постачальників 
+            //    editTemplate: function(value, item) {
+             //       var $select = jsGrid.fields.select.prototype.editTemplate.call(this);
+             //       console.log("item", item)
+              //      console.log("value", value)
+                //            console.log($select)
+                 //           $select.prepend($("<option>").prop({"id": "option_search", "text": "Пошук"})).on("click", "#option_search", function() {
+                  //              $("select").selectize(manuf_list);
+                   //             })
+                    //        return $select;
+                    //},
+
+                // TODO при натисканні на рядок для редагування одразу запускається editTemplate функція і витирає діючі значення постачальника 
+                //
+                
             },
-            
+              
             { type: "control" }
         ]
     });

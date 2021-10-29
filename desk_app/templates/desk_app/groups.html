@@ -1,0 +1,11 @@
+{% extends "desk_app/layout.html" %}
+
+{% block title %}SCU groups{% endblock %}
+
+
+{% block body %}
+
+    {% load django_tables2 %}
+    {% render_table table %}
+
+{% endblock %}

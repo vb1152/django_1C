@@ -1,0 +1,44 @@
+{% extends "desk_app/layout.html" %}
+
+{% block title %}Orders{% endblock %}
+
+{% block scripts %}
+    {% load static %}
+    <script src="{% static 'desk_app/orders.js' %}"></script>
+{% endblock %}       
+
+{% block body %}
+{% csrf_token %} 
+  <div class="btn-group-vertical" role="group" aria-label="Basic outlined example"></div>
+
+
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <!--span class="close">&times;</span-->
+      <h4 id = "modal_header"></h4>
+      <div class="modal-body">
+        <p id='some_text'></p>
+        <p id='some_other_text'></p>
+        <div id="myDynamicTable"></div>
+        <br>
+        <div id="orderResult"></div>
+      </div>
+      <div class="modal-footer">
+        
+          <h5 id='modal_footer'></h5>
+          <button type="button" class="btn btn-outline-info" id='open_button'>Open</button>
+          <br>
+          <h5 id='email'></h5>
+          <button type="button" class="btn btn-outline-success" id='send_button'>Send</button>
+          <br>
+          <div id="result_send_order"></div>
+      </div>
+
+
+    </div>
+  </div>
+
+
+{% endblock %}

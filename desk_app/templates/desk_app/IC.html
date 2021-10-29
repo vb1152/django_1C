@@ -35,17 +35,17 @@
     </script> 
 
     {% if message %}
-    <div>{{ message }}</div>
+        <div>{{ message }}</div>
     {% endif %}
     
-    <h4>Параметри роботи з 1С</h4>
+    <h4>Parameters of work with 1C</h4>
 
     {% if user.is_authenticated %}
         <form action="{% url 'desk_app:IC' %}" method="post"> 
             <header>
-                <h5>Параметри підключення</h5>
+                <h5>Connection settings</h5>
 
-                <div>Введіть параметри підключення до бази 1С через опублікований веб сервер 1С</div>
+                <div>Enter the connection parameters to the 1C database via the published 1C web server</div>
                 <br>
             </header>
             
@@ -57,8 +57,9 @@
         
         
         <div>
-            В процесі вводу перевірте ЦЮ \|/ електронну адресу для підключення до бази 1С. Якщо адреса введена вірно, при переході за 
-            цією адресою в новому вікні браузері має відкритися діалогове вікно входу в 1С. 
+            During the input process, check this \|/ e-mail address to connect to the 1C database. 
+            If the address is entered correctly, when you go to this address in a new browser window should 
+            open a dialog box to log in to 1C. 
         </div>
         <a class = url_result href=""></a>
 
