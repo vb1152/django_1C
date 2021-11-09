@@ -74,7 +74,6 @@ class ProducersForJSgrid(tables.Table):
 
     class Meta:
         attrs = {"class": "produsers"}
-        #fields = ("scu_article", "scu_name", "who_price", "ret_price")
 
 class IC_scu(models.Model):
     scu_name = models.CharField(max_length=70, blank=True) #Description
@@ -84,7 +83,6 @@ class IC_scu(models.Model):
     unit_measure = models.CharField(max_length=2, blank=True)
     scu_article = models.CharField(max_length=5)
     scu_barcode = models.CharField(max_length=13, blank=True, null=True)
-    
     ret_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     who_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     scu_produser = models.ForeignKey(Producers, on_delete=models.CASCADE, related_name="scu_produser_rel_name", blank=True, null=True)
@@ -95,12 +93,9 @@ class Prices(models.Model): # class for storing prices of prices
     ret_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     who_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
-
 class Prices_type(models.Model):
     price_name = models.CharField(max_length=15) # Desription 
     price_code = models.CharField(max_length=36, unique=True) # guid code 
-
-
 
 # class for showing table in django 
 class SimpleTable(tables.Table):
@@ -136,11 +131,11 @@ class SalesForAbcForm(ModelForm):
         model = SalesForAbc
         fields = ['start_salesData', 'end_salesData']
         widgets = {'start_salesData': forms.DateInput(format=('%Y-%m-%d'), 
-                                                    attrs={'class':'form-control', 'placeholder':'Оберіть початкову дату', 'type':'date'}),
+                                                    attrs={'class':'form-control', 'placeholder':'Choose start date', 'type':'date'}),
                    'end_salesData': forms.DateInput(format=('%Y-%m-%d'), 
-                                                    attrs={'class':'form-control', 'placeholder':'Оберіть кінцеву дату', 'type':'date'}), 
+                                                    attrs={'class':'form-control', 'placeholder':'Choose end date', 'type':'date'}), 
                     }
-        labels = {'start_salesData': 'Початок', 'end_salesData': 'Кінець'}
+        labels = {'start_salesData': 'Start', 'end_salesData': 'End'}
 
 # клас для відображення стахових запасів товару 
 class SafetyStock(models.Model):
@@ -151,8 +146,6 @@ class SafetyStock(models.Model):
     only_max = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=2) # максимальне замовлення
     stock_max = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=2) # максимальний залишок 
 
-
-# TODO видалити цю модель а в самому коді у функції load_all_data зберігати дані в request.session 
 class DataForProgressbar(models.Model): # class to save info about data legth before loading for a progressbar
     name = models.CharField(max_length=15) # Desription 
     count = models.PositiveSmallIntegerField(null=True) 

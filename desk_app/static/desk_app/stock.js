@@ -1,8 +1,6 @@
 // script to create dinamic jsGrid table 
 
 $(document).ready(function() {
-
-    
     //code to use decimal numbers
     //https://github.com/tabalinas/jsgrid/issues/621 - 
     function DecimalField(config) {
@@ -27,23 +25,13 @@ $(document).ready(function() {
     });
     jsGrid.fields.decimal = jsGrid.DecimalField = DecimalField;
 
-    
-
-
     // rout to get list of manufacturers from db 
     $.ajax({
         type: "GET",
         url: "/manuf_api"
     }).done(function(manuf_list) {
-        console.log(manuf_list)
         manuf_list.unshift({ id: 0, producer_name: "" });
 
-
-        
-
-        
-
-    //console.log('ajax run');
     $("#jsGrid").jsGrid({
         
         height: "auto",
@@ -60,14 +48,13 @@ $(document).ready(function() {
         pageSize: 10,
         pageButtonCount: 5,
 
-        deleteConfirm: "Do you really want to delete client?",
+        deleteConfirm: "Do you really want to delete Safety stock data?",
         
         //add data to a class attribute  
         rowClass: function(item, itemIndex) { 
             if (!("articul" in item)) {
                 return "group";
             } else if ("class" in item) {
-                //console.log(item.class)
                 if (item.class == "A") {return "A"} 
                 else if (item.class == "B"){return "B"}
                 else if (item.class == "C"){return "C"}
@@ -77,27 +64,14 @@ $(document).ready(function() {
         controller: {
             loadData: function(filter) {
                 var d = $.Deferred();
-                //console.log('ajax GET stock');
-                //console.log(filter);
                 $.ajax({
                     type: "GET",
                     url: "/stock_api",
                     dataType: "json",
                     data: filter
                 }).done(function(result) {
-                    //console.log('result');
-                    //console.log(result);
-                    //rowClass(item);
-                    
-                    //result = $.grep(result, function(item) {
-                    //    return item.manuf === filter.manuf;
-                    //});
-           
-                    
                     
                     d.resolve($.map(result, function(item) {
-                        //console.log(manuf_list.find(x => x.id == '1').producer_name)
-                        //console.log(item.scu_produser__producer_name)
                         return $.extend(item.fields, {  id: item.id,
                                                         name: item.scu_name, 
                                                         articul: item.scu_article, 
@@ -108,10 +82,7 @@ $(document).ready(function() {
                                                         maxOrd: item.scu_safety_stock__only_max,
                                                         maxSTK: item.scu_safety_stock__stock_max,                                                        
                                                         manuf: item.scu_safety_stock__provider
-
-                                                       
                                                     });
-                                                    
                     }));
                 });
 
@@ -127,26 +98,30 @@ $(document).ready(function() {
             },
             
             updateItem: function(item) {
-                console.log(item)
-                //console.log(value)
                 return $.ajax({
                     type: "PUT",
                     url: "/stock_api/" + item.id,
                     data: item,
-                    
                     headers: {
                         "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val() //get csrftoken in var
                     },
                 });
             },
 
-            deleteItem: function(item) {
+            deleteItem: function(item) { //delete insurance reserves from db
                 return $.ajax({
                     type: "DELETE",
-                    url: "/clients/api/" + item.id
+                    url: "/stock_api/" + item.id,
+                    data: item,
+                    headers: {
+                        "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val() //get csrftoken in var
+                    },
+
+                })
+                .done(function(result){
+                    alert(result.comment)
                 });
-            },
-            
+                },
         },
 
         fields: [
@@ -161,29 +136,11 @@ $(document).ready(function() {
 
 
             { name: "manuf", autosearch: true, type: "select", selectedIndex: -1,
-                width: 50, items: manuf_list, editing: true, valueField: "id", textField: "producer_name",
-               
-                // функція пошуку в списку постачальників 
-            //    editTemplate: function(value, item) {
-             //       var $select = jsGrid.fields.select.prototype.editTemplate.call(this);
-             //       console.log("item", item)
-              //      console.log("value", value)
-                //            console.log($select)
-                 //           $select.prepend($("<option>").prop({"id": "option_search", "text": "Пошук"})).on("click", "#option_search", function() {
-                  //              $("select").selectize(manuf_list);
-                   //             })
-                    //        return $select;
-                    //},
-
-                // TODO при натисканні на рядок для редагування одразу запускається editTemplate функція і витирає діючі значення постачальника 
-                //
-                
+                width: 50, items: manuf_list, editing: true, valueField: "id", textField: "producer_name", 
             },
               
             { type: "control" }
         ]
     });
-
     });
-
 });

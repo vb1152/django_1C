@@ -1,11 +1,8 @@
 // script to create dinamic jsGrid table 
 
-
 $(document).ready(function() {
-    console.log('ajax run produsers');
 
     $('#clean_files').on( "click", function() {
-        //console.log( $( this ).text() );
         $.ajax({
             type: "POST",
             url: "/produsers",
@@ -17,13 +14,11 @@ $(document).ready(function() {
                 "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val()
             }
         }).done(function(result) {
-            console.log(result)
             document.querySelector('.status_text').innerHTML = result.comment
         });
     });
 
     $('#ready_files').on( "click", function() {
-        //console.log( $( this ).text() );
         $.ajax({
             type: "POST",
             url: "/produsers",
@@ -35,15 +30,9 @@ $(document).ready(function() {
                 "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val()
             }
         }).done(function(result) {
-            console.log(result)
             document.querySelector('.status_text').innerHTML = result.comment
         });
     });
-
-    
-
-
-
 
     $("#jsGrid").jsGrid({
         height: "auto",
@@ -66,17 +55,12 @@ $(document).ready(function() {
             
             loadData: function(filter) {
                 var d = $.Deferred();
-                console.log('ajax GET produsers');
-                //console.log(filter);
                 $.ajax({
                     type: "GET",
                     url: "/produsers_api",
                     data: filter
                 }).done(function(result) {
-                    console.log('result produsers');
                     d.resolve($.map(result, function(item) {
-                        //console.log(item)
-                        //console.log(item.id)
                         return $.extend(item.fields, { 
                                                         id: item.id,
                                                         Name_1C: item.producer_name, 
@@ -92,7 +76,6 @@ $(document).ready(function() {
 
                                                     });
                     }));
-                    //console.log(d)
                 });
 
                 return d.promise();
@@ -111,7 +94,6 @@ $(document).ready(function() {
 
             updateItem: function(item) {
                 var csrftoken = $("[name=csrfmiddlewaretoken]").val(); //save csrftoken in var 
-                //console.log(csrftoken);
                 return $.ajax({
                     type: "PUT",
                     url: "/produsers_api/" + item.id,
@@ -148,5 +130,4 @@ $(document).ready(function() {
             { type: "control" }
         ]
     });
-
 });

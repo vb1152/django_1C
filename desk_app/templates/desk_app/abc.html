@@ -9,7 +9,10 @@
 
 {% block body %} 
     {% if user.is_authenticated %}
-        <div>Choose dates to download sales and ABC class calculation.</div>
+        {% if message %}
+            <div>{{ message }}</div>
+        {% endif %}
+        <div>Choose dates to download sales and run ABC class calculation.</div>
         <!--Form Container-->
         <div>
             <form action="{% url 'desk_app:abc' %}" method="post">
@@ -31,9 +34,7 @@
         
         
     {% else %}
-        {% if message %}
-            <div>{{ message }}</div>
-        {% endif %}
+        
     {% endif %} 
     
     <div class="jsGrid" id="jsGrid"></div>

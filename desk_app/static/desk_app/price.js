@@ -1,8 +1,5 @@
 // script to create dinamic jsGrid table 
-
-
 $(function() {
-    console.log('ajax run');
     $("#jsGrid").jsGrid({
         height: "auto",
         width: "100%",
@@ -22,17 +19,12 @@ $(function() {
         controller: {
             loadData: function(filter) {
                 var d = $.Deferred();
-                console.log('ajax GET price_list_all');
                 $.ajax({
                     type: "GET",
                     url: "/price_list_all",
-                    //dataType: "json",
                     data: filter
                 }).done(function(result) {
-                    console.log('result');
-                    //console.log(result);
                     d.resolve($.map(result, function(item) {
-                        //console.log(item)
                         return $.extend(item.fields, { 
                                                         name: item.name, 
                                                         articul: item.articul, 
