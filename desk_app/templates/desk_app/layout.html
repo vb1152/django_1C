@@ -3,38 +3,46 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>{% block title %}Головна сторінка{% endblock %}</title>
+        <title>{% block title %}Main page{% endblock %}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link href="{% static 'desk_app/styles.css' %}" rel="stylesheet">
-        <script src="{% static 'desk_app/layout.js' %}"></script>
-        <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <!---script src="{% static 'desk_app/layout.js' %}"></script--->
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+        <!--- щоб шукати в списку постачальників -->
+        <!---script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/js/standalone/selectize.min.js" integrity="sha512-pF+DNRwavWMukUv/LyzDyDMn8U2uvqYQdJN0Zvilr6DDo/56xPDZdDoyPDYZRSL4aOKO/FGKXTpzDyQJ8je8Qw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script--->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+
 
         <script src="http://js-grid.com/js/jsgrid.min.js"></script>
-    <link href="http://js-grid.com/css/jsgrid.min.css" rel="stylesheet" />
-    <link href="http://js-grid.com/css/jsgrid-theme.min.css" rel="stylesheet" />
-
+        <link href="http://js-grid.com/css/jsgrid.min.css" rel="stylesheet" />
+        <link href="http://js-grid.com/css/jsgrid-theme.min.css" rel="stylesheet" />
+        <link rel="shortcut icon" href="#">
         
-        {% block scripts %}{% endblock %}
+        {% block scripts %}<script src="{% static 'desk_app/layout.js' %}"></script>{% endblock %}
         {% block head %}{% endblock %}   
     </head>
     <body>
         {% if user.is_authenticated %}
         <ul class="nav">
-              <a class="nav-link active" href="{% url 'desk_app:index' %}">Головна</a>
-              <a class="nav-link" href="{% url 'desk_app:produsers' %}">Постачальники</a>
-              <a class="nav-link disabled" href="#" aria-disabled="true">Замовлення</a>
+              <a class="nav-link active" href="{% url 'desk_app:index' %}">Main page</a>
+              <a class="nav-link" href="{% url 'desk_app:produsers' %}">Produsers</a>
+              <a class="nav-link" href="{% url 'desk_app:orders' %}">Orders</a>
               <a class="nav-link" href="{% url 'desk_app:abc' %}">ABC</a>
-              <a class="nav-link" href="{% url 'desk_app:sheet' %}">Відомість</a>
-              <a class="nav-link" href="{% url 'desk_app:stock' %}">Стр запаси</a>
-              <a class="nav-link" href="{% url 'desk_app:IC' %}">1C параметри</a>
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-              <a class="nav-link" href="{% url 'desk_app:logout' %}">Вийти</a>
+              <a class="nav-link" href="{% url 'desk_app:sheet' %}">Sheet</a>
+              <a class="nav-link" href="{% url 'desk_app:stock' %}">Insurance reserves</a>
+              <a class="nav-link" href="{% url 'desk_app:IC' %}">1C settings</a>
+              <a class="nav-link" href="{% url 'desk_app:data' %}" >Data management</a>
+              <a class="nav-link" href="{% url 'desk_app:logout' %}">Exit</a>
               <div class="alert alert-success" role="alert" id = ICstatus></div>
         </ul>
 
         {% else %}
-                <a class="nav-link" href="{% url 'desk_app:login' %}">Увійти</a>
-                <a class="nav-link" href="{% url 'desk_app:register' %}">Реєстрація</a>
+                <a class="nav-link" href="{% url 'desk_app:login' %}">Enter</a>
+                <a class="nav-link" href="{% url 'desk_app:register' %}">Registration</a>
         {% endif %}
         <div class="body">
             {% block body %}

@@ -1,7 +1,6 @@
 // script to create dinamic jsGrid table 
 
 $(document).ready(function() {
-    console.log('ajax run abc');
     $("#jsGrid").jsGrid({
         height: "auto",
         width: "100%",
@@ -17,9 +16,9 @@ $(document).ready(function() {
         pageSize: 10,
         pageButtonCount: 3,
 
-        deleteConfirm: "Бажаєте видалити запис?",
+        deleteConfirm: "Do you want to delete data?",
 
-        noDataContent: "Такого запису не знайдено",
+        noDataContent: "No data in db.",
 
         controller: {
             
@@ -50,7 +49,6 @@ $(document).ready(function() {
             { name: "Sales", type: "number", width: 40, filtering: false, align: "left" },
             { name: "Sum", type: "number", width: 40, filtering: false, align: "left" },
             { name: "Class", type: "text", width: 100}
-            //{ type: "control" }
         ]
     });
 

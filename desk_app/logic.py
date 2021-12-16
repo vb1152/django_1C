@@ -17,11 +17,15 @@ def get_data_from_IS(end_url):
         #metadata = "/Catalog_Номенклатура?$format=json"
         # Catalog_Номенклатура?$format=json
         # print url link for odata access  
-        # print(str(url) + end_url)
+        print(str(url) + end_url)
         nom_response = session.get(str(url) + end_url)
         response_dict = json.loads(nom_response.text)
-        
-        return response_dict['value']
+
+        if type(response_dict) is dict:
+            return response_dict['value']
+        else:
+            return response_dict   
+    
     else:
         return {'error': 'No connection'}
 

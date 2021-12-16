@@ -4,26 +4,22 @@
     {% if user.is_authenticated %}
         
     <div class="btn-group" role="group" aria-label="Basic example">
-        <!--form action="{% url 'desk_app:load_data_from_IC' %}" method="POST"-->    
-            <button type="button" class="btn btn-outline-primary" id="load_data">Завантажити группу "Товары"</button>
-        <!--/form-->
-        <!--form action="{% url 'desk_app:load_scu_from_IC' %}" method="POST"-->    
-            <button type="button" class="btn btn-outline-primary" id="load_scu">Завантажити номенклатуру</button>
-        <!--/form-->
+        
+
 
         <!-- конпка праюцє без js -->
         <form action="{% url 'desk_app:simple_list' %}" method="GET">   
-            <button type="submit" class="btn btn-outline-primary" id="show_pricelist">Показати повний перелік</button>
+            <button type="submit" class="btn btn-outline-primary" id="show_pricelist">Show full list</button>
         </form>
         
-            <button type="submit" class="btn btn-outline-primary" id="load_barcode">Оновити штрихкоди</button>
-        <!--/form-->
-            <button type="submit" class="btn btn-outline-primary" id="load_prices">Оновити ціни</button>
         
         <form action="{% url 'desk_app:price_list_all' %}" method="GET">     
-            <button type="submit" class="btn btn-outline-primary" id="">Прайс</button>
+            <button type="submit" class="btn btn-outline-primary" id="">Pricelist</button>
         </form>    
     </div>
+    <br>
+    
+    
         {% if message %}
             <div>{{ message }}</div>
         {% endif %}

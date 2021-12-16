@@ -1,0 +1,75 @@
+{% extends "desk_app/layout.html" %}
+
+{% block title %}Дані{% endblock %}
+
+{% block scripts %}
+    {% load static %}
+    <script src="{% static 'desk_app/data.js' %}"></script>
+{% endblock %}       
+
+{% block body %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Index</th>
+            <th scope="col">Action</th>
+            <th scope="col">Control</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Folders</th>
+                <td id="folders_quantity"></td>
+                <td id = "folders_date_time"></td>
+                <td>
+                    <button type="button" class="btn btn-outline-primary btn-sm" id="load_all_data">Download folders</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm" id="check_new_folders">Update folders</button>
+                    <button type="button" class="btn btn-outline-danger btn-sm" id="delete_data">Очистити базу (групи, SCU)</button>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">SCU</th>
+                <td id="scu_quantity"></td>
+                <td id="scu_date_time">Thornton</td>
+                <td>
+                    <button type="button" class="btn btn-outline-primary btn-sm" id="load_scu">Download SCU</button>
+                    <button type="button" class="btn btn-outline-danger btn-sm" id="delete_scu">Delete SCU</button>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Barcodes</th>
+                <td id="barcode_data"></td>
+                <td id="barcode_date_time"></td>
+                <td>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        {% csrf_token %} 
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="load_barcode">Update barcodes</button>
+                        <button type="button" class="btn btn-outline-danger btn-sm" id="delete_barcode">Delete barcodes</button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Prices</th>
+                <td id = "prices_count"></td>
+                <td id = "event_price"></td>
+                <td>
+                    <button type="submit" class="btn btn-outline-primary btn-sm" id="load_prices">Заватажити ціни з odata</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm" id="load_price_from_xml">Load prices from XML</button>
+                    <button type="button" class="btn btn-outline-danger btn-sm" id="delete_prices_xml">Очистити ціни з xml</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="progress" id = "progress" hidden> 
+        {% csrf_token %}
+        <div id = "progress-bar" class="progress-bar" style="width: 0%;" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+    </div>
+
+    <div class="status_text"></div>
+    <div class="status_text_scu"></div>
+    <div class="status_text_barcode"></div>
+    <div class="status_text_prices"></div>
+
+{% endblock %}
